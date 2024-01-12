@@ -4,6 +4,7 @@ import requests
 
 from langchain.utilities import BingSearchAPIWrapper
 
+from langchain.utilities import MetaphorSearchAPIWrapper
 from langchain.document_loaders import WebBaseLoader
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -27,32 +28,36 @@ from tenacity import (
     wait_random_exponential,
 )
 
-os.environ["BING_SEARCH_URL"] = "https://api.bing.microsoft.com/v7.0/search"
-
+# os.environ["BING_SEARCH_URL"] = "https://api.bing.microsoft.com/v7.0/search"
+os.environ["METAPHOR_API_KEY"] = "8bdc2664-0f69-4f2b-ab9c-4ea0f027d199"
 POWERFUL_MODEL = "gpt-4-0613"
 MINIMAL_TEMP = 0.3
 ZERO_TEMP = 0.0
 NUM_RESULTS = 5
 
-with open('prod_env/credentials.conf', 'r') as creds:
-    credentials = parse_hocon(creds.read())
-creds.close()
-    
-openai_api_key = credentials.as_plain_ordered_dict().get('openaiApiKey')
-bing_subscription_key = credentials.as_plain_ordered_dict().get('bingSubscriptionKey')
+# with open('prod_env/credentials.conf', 'r') as creds:
+#     credentials = parse_hocon(creds.read())
+# creds.close()
+#
+# openai_api_key = credentials.as_plain_ordered_dict().get('openaiApiKey')
+# bing_subscription_key = credentials.as_plain_ordered_dict().get('bingSubscriptionKey')
+
+openai_api_key='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'
 
 
 llm = ChatOpenAI(model=POWERFUL_MODEL, temperature=ZERO_TEMP, openai_api_key=openai_api_key)
-search = BingSearchAPIWrapper(bing_subscription_key=bing_subscription_key)
+# search = BingSearchAPIWrapper(bing_subscription_key=bing_subscription_key)
 
+search=MetaphorSearchAPIWrapper()
 def get_links(search_metadata):
     links = []
     for result in search_metadata:
-        links.append(result["link"])
+        links.append(result["url"])
     return links
 
 def get_instructions(dataset_phrase, num_results=5):
     search_metadata = search.results(dataset_phrase, num_results)
+    # search_metadata = search.run(dataset_phrase)
     print(search_metadata)
 
     old_links = get_links(search_metadata)
@@ -98,7 +103,9 @@ def run_agent(dataset_phrase, instance_format, possible_outputs, onepass=False):
             description="useful for when you need to ask questions to get information about the dataset"
         ),
     ]
-    chat = ChatOpenAI(model=POWERFUL_MODEL, temperature=MINIMAL_TEMP, openai_api_key=openai_api_key)
+    #model=POWERFUL_MODEL,
+    chat = ChatOpenAI(model=POWERFUL_MODEL,temperature=MINIMAL_TEMP, openai_api_key=openai_api_key)
+
     agent_chain = initialize_agent(tools, chat, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True, return_intermediate_steps=True)
 
     prompt = (f"{dataset_phrase}. Use your resources to ask a series of simple questions to create instructions for the dataset. These instructions will be prepended to the prompt template during inference to help a large language model answer the prompt correctly." +
@@ -109,7 +116,7 @@ def run_agent(dataset_phrase, instance_format, possible_outputs, onepass=False):
 
     print("Prompt: ", prompt)
 
-    return agent_chain({"input": prompt}), links
+    return agent_chain({"input": prompt}), links ,agent_chain
 
 @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
 def openai_generate(model, prompt, temperature=MINIMAL_TEMP):
@@ -131,9 +138,9 @@ def onepass_simpletips(dataset_phrase, instance_format, possible_outputs_prompt)
     possible_outputs_prompt)
     return openai_generate(POWERFUL_MODEL, prompt, temperature=MINIMAL_TEMP)
 
-def generate_and_save_instructions(working_directory_name, dataset_name, dataset_phrase, instance_format, possible_outputs, sources_dict, onepass=False):
+def generate_and_save_instructions(dataset_name, dataset_phrase, instance_format, possible_outputs, sources_dict, onepass=False):
     
-    out_dict, links = run_agent(dataset_phrase, instance_format, possible_outputs, onepass=onepass)
+    out_dict, links, agent = run_agent(dataset_phrase, instance_format, possible_outputs, onepass=onepass)
     input_prompt = out_dict.get("input", None)
     intermediate_steps = dumps(out_dict.get("intermediate_steps", None))
     instr = out_dict["output"][out_dict["output"].find("1."):]
@@ -144,4 +151,4 @@ def generate_and_save_instructions(working_directory_name, dataset_name, dataset
         "intermediate_steps": intermediate_steps,
     }
     
-    return instr, sources_dict
+    return instr, sources_dict, agent

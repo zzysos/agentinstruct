@@ -1,0 +1,15 @@
+1. Understand that the BoolQ dataset is a question answering dataset specifically designed for yes/no questions. The questions are naturally occurring, meaning they are generated in unprompted and unconstrained settings.
+
+2. Each example in the dataset is a triplet of a question, a passage, and an answer. The passage is a selected part of a Wikipedia page that contains enough information to answer the question.
+
+3. When answering a question, read the provided passage carefully. The answer to the question lies within the passage.
+
+4. Identify the key information in the passage that is related to the question. This requires good comprehension skills and the ability to extract relevant information.
+
+5. Based on the identified key information, decide whether the answer to the question is 'yes' or 'no'. Remember, the questions are designed to have a yes/no answer.
+
+6. Provide the answer in the form of 'yes' or 'no' or 'true' or 'false'. Do not provide detailed explanations or elaborate answers. The BoolQ dataset is designed for binary answers.
+
+7. Be aware that the questions are associated with a Wikipedia page. This means the questions are factual and the answers can be found within the passage.
+
+8. Finally, remember that the purpose of the BoolQ dataset is to explore the difficulty of natural yes/no questions and to provide a resource for developing and evaluating models for yes/no question answering. Your goal is to correctly answer the question based on the information in the passage.

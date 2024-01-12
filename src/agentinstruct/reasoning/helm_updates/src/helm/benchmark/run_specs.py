@@ -1436,7 +1436,7 @@ def get_svamp_spec() -> RunSpec:
     )
 
 
-@run_spec_function("addsub")
+@run_spec_function("addsub.json")
 def get_addsub_arith_spec() -> RunSpec:
     scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.addsub_scenario.AddSubScenario", args={})
 
@@ -1450,11 +1450,11 @@ def get_addsub_arith_spec() -> RunSpec:
     )
 
     return RunSpec(
-        name="addsub",
+        name="addsub.json",
         adapter_spec=adapter_spec,
         scenario_spec=scenario_spec,
         metric_specs=get_exact_match_metric_specs() + get_classification_metric_specs(),
-        groups=["addsub"],
+        groups=["addsub.json"],
     )
 
 

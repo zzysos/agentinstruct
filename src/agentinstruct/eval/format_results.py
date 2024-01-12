@@ -4,6 +4,7 @@ import json
 import pandas as pd
 from letter_eval import letter_eval
 
+
 dataset_to_metric = {
     'mmlu': 'exact_match',
     'civil_comments': 'quasi_prefix_exact_match',
@@ -25,7 +26,7 @@ dataset_to_metric = {
     'gsm': 'quasi_exact_match',
     'multi_arith': 'quasi_exact_match',
     'svamp' : 'quasi_exact_match',
-    'addsub': 'quasi_exact_match',
+    'addsub.json': 'quasi_exact_match',
     'singleeq': 'quasi_exact_match',
     'letter': 'letter_eval',
     'big_bench_hard': 'quasi_exact_match',

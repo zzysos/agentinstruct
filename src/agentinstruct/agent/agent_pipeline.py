@@ -12,9 +12,9 @@ with open('prod_env/credentials.conf', 'r') as creds:
         
 openai.api_key = credentials.as_plain_ordered_dict().get('openaiApiKey')
 
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
     
 def generate_and_place_all_instr(benchmark_output_dir):
     suite = benchmark_output_dir.split("/")[-1]

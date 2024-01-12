@@ -19,7 +19,7 @@ from .scenario import (
 
 class AddSubScenario(Scenario):
 
-    name = "addsub"
+    name = "addsub.json"
     description = "AddSub Dataset"
     tags = ["question_answering"]
 

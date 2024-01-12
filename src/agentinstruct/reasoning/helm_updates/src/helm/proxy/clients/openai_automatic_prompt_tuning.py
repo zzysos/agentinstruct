@@ -56,7 +56,7 @@ def trigger_word_pipeline(raw_request, prompts):
         
             full_text = p1 + explanation + "\n\n" + p2 + "\n" + prompts['output_prefix'] + response["choices"][0]["message"]["content"]
             
-            if dataset_name == "addsub" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
+            if dataset_name == "addsub.json" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
                 response["choices"][0]["message"]["content"] =  response["choices"][0]["message"]["content"].replace(",", "")
                 pred = [ s for s in re.findall(r'-?\d+\.?\d*' ,  response["choices"][0]["message"]["content"])]
                 if pred:
@@ -80,7 +80,7 @@ def trigger_word_pipeline(raw_request, prompts):
                 explanation = explanation.split(prompts['input_prefix'])[0]
             explanation = explanation.rstrip()
             
-            if dataset_name in ['singleeq', 'addsub', 'multi_arith', 'gsm', 'svamp']:
+            if dataset_name in ['singleeq', 'addsub.json', 'multi_arith', 'gsm', 'svamp']:
                 p = 'Therefore, the answer (arabic numerals) is '
             elif dataset_name in ['aqua', 'commonsense_qa']:
                 p = 'Therefore, among A through E, the answer is '
@@ -109,7 +109,7 @@ def trigger_word_pipeline(raw_request, prompts):
             
             full_text = prompts['instructions'] + "\n" + original_question + "\n" + "Let's think step by step." + explanation + "\n" + p + response["choices"][0]["message"]["content"]
         
-            if dataset_name == "addsub" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
+            if dataset_name == "addsub.json" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
                 response["choices"][0]["message"]["content"] = response["choices"][0]["message"]["content"].replace(",", "")
                 pred = [ s for s in re.findall(r'-?\d+\.?\d*' , response["choices"][0]["message"]["content"])]
                 if pred:
@@ -145,7 +145,7 @@ def trigger_word_pipeline(raw_request, prompts):
         raw_request_copy['messages'] = [{"role": "user", "content": raw_request_copy['messages']}]
         response = get_chatgpt_response(raw_request_copy)
         
-        if dataset_name == "addsub" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
+        if dataset_name == "addsub.json" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
             response["choices"][0]["message"]["content"] =  response["choices"][0]["message"]["content"].replace(",", "")
             pred = [ s for s in re.findall(r'-?\d+\.?\d*' ,  response["choices"][0]["message"]["content"])]
             if pred:

@@ -141,7 +141,7 @@ class TogetherClient(Client):
                 
                     full_text = p1 + explanation + "\n\n" + p2 + "\n" + prompts['output_prefix'] + result['output']['choices'][0]['text'] 
                     
-                    if dataset_name == "addsub" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
+                    if dataset_name == "addsub.json" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
                         result['output']['choices'][0]['text'] = result['output']['choices'][0]['text'].replace(",", "")
                         pred = [ s for s in re.findall(r'-?\d+\.?\d*' , result['output']['choices'][0]['text'])]
                         if pred:
@@ -176,7 +176,7 @@ class TogetherClient(Client):
                         explanation = explanation.split(prompts['input_prefix'])[0]
                     explanation = explanation.rstrip()
                     
-                    if dataset_name in ['singleeq', 'addsub', 'multi_arith', 'gsm', 'svamp']:
+                    if dataset_name in ['singleeq', 'addsub.json', 'multi_arith', 'gsm', 'svamp']:
                         p = 'Therefore, the answer (arabic numerals) is '
                     elif dataset_name in ['aqua', 'commonsense_qa']:
                         p = 'Therefore, among A through E, the answer is '
@@ -212,7 +212,7 @@ class TogetherClient(Client):
                     
                     full_text = prompts["instructions"] + "\n" + original_question + "\n" + "Let's think step by step." + explanation + "\n" + p + result['output']['choices'][0]['text']
                     
-                    if dataset_name == "addsub" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
+                    if dataset_name == "addsub.json" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
                         result['output']['choices'][0]['text'] = result['output']['choices'][0]['text'].replace(",", "")
                         pred = [ s for s in re.findall(r'-?\d+\.?\d*' , result['output']['choices'][0]['text'])]
                         if pred:
@@ -256,7 +256,7 @@ class TogetherClient(Client):
                     ) from e
                 result = response.json()
                 
-                if dataset_name == "addsub" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
+                if dataset_name == "addsub.json" or dataset_name == "multi_arith" or dataset_name =="svamp" or dataset_name =="singleeq" or 'gsm' in dataset_name:
                     result['output']['choices'][0]['text'] = result['output']['choices'][0]['text'].replace(",", "")
                     pred = [ s for s in re.findall(r'-?\d+\.?\d*' , result['output']['choices'][0]['text'])]
                     if pred:

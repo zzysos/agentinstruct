@@ -48,7 +48,7 @@ cp src/agentinstruct/reasoning/helm_updates/src/helm/benchmark/run_expander.py s
 # update the run_specs with new datasets
 cp src/agentinstruct/reasoning/helm_updates/src/helm/benchmark/run_specs.py src/agentinstruct/reasoning/helm/src/helm/benchmark/run_specs.py
 
-# add addsub scenario
+# add addsub.json scenario
 cp src/agentinstruct/reasoning/helm_updates/src/helm/benchmark/scenarios/addsub_scenario.py src/agentinstruct/reasoning/helm/src/helm/benchmark/scenarios
 
 # add aqua scenario
