@@ -29,7 +29,7 @@ from tenacity import (
 )
 
 # os.environ["BING_SEARCH_URL"] = "https://api.bing.microsoft.com/v7.0/search"
-os.environ["METAPHOR_API_KEY"] = "8bdc2664-0f69-4f2b-ab9c-4ea0f027d199"
+os.environ["METAPHOR_API_KEY"] = "***"
 POWERFUL_MODEL = "gpt-4-0613"
 MINIMAL_TEMP = 0.3
 ZERO_TEMP = 0.0
@@ -42,7 +42,7 @@ NUM_RESULTS = 5
 # openai_api_key = credentials.as_plain_ordered_dict().get('openaiApiKey')
 # bing_subscription_key = credentials.as_plain_ordered_dict().get('bingSubscriptionKey')
 
-openai_api_key='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'
+openai_api_key='sk-***'
 
 
 llm = ChatOpenAI(model=POWERFUL_MODEL, temperature=ZERO_TEMP, openai_api_key=openai_api_key)

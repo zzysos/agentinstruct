@@ -8,7 +8,7 @@ from langchain.chat_models import ChatOpenAI
 
 Data_Path='../mydataset'
 
-openai_api_key='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'
+openai_api_key='sk-***'
 
 def boolQ_metric(input_string):
     # 将输入字符串转换为小写，以便不区分大小写
